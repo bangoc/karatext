@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "pixels.h"
+
 int main(int argc, char* argv[]) {
   BLImage img(1920, 1080, BL_FORMAT_PRGB32);
   BLContext ctx(img);
@@ -24,15 +26,24 @@ int main(int argc, char* argv[]) {
   BLTextMetrics tm;
   BLGlyphBuffer gb;
 
-  BLPoint p(20, 900 + fm.ascent);
+  BLPoint p(0, 0);
   const char* text = "Mưa trên cuộc tình";
   gb.setUtf8Text(text, SIZE_MAX);
   font.shape(gb);
   font.getTextMetrics(gb, tm);
 
   p.x = (1920.0 - (tm.boundingBox.x1 - tm.boundingBox.x0)) / 2.0;
-  ctx.fillGlyphRun(p, font, gb.glyphRun());
   p.y = (1080 - (fm.ascent + fm.descent + fm.lineGap));
+  ctx.fillGlyphRun(p, font, gb.glyphRun());
+  BLRgba32 red(0xFF, 0, 0, 0xFF);
+  for (long i = p.x; i < p.x + (tm.boundingBox.x1 - tm.boundingBox.x0) / 3 + 20; ++i) {
+    for (long j = p.y - (fm.ascent + fm.descent + fm.lineGap); j < p.y; ++j) {
+      BLRgba32 color = GetPixelColor(&img, i, j);
+      if (color.r() != 0 && color.g() != 0 && color.b() != 0) {
+        SetPixelColor(&img, i, j, &red);
+      }
+    }
+  }
   ctx.end();
   img.writeToFile("mua-tren-cuoc-tinh-center.png");
 
