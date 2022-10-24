@@ -1,0 +1,5 @@
+project(karatext)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/libs/blend2d/src)
+add_subdirectory(libs/blend2d)
+add_subdirectory(learning)
