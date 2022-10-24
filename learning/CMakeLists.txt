@@ -1,2 +1,6 @@
 add_executable(capi capi.c)
-target_link_libraries(capi blend2d)
+add_executable(text text.cc)
+add_executable(textcenter textcenter.cc)
+foreach (p capi text textcenter)
+  target_link_libraries(${p} blend2d)
+endforeach()
