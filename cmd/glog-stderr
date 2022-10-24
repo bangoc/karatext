@@ -1,0 +1,1 @@
+GLOG_logtostderr=1 ./render ../samples/config.json ../samples/mua.t
