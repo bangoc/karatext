@@ -17,4 +17,8 @@ static inline void SetPixelColor(BLImage *img, long x, long y, BLRgba32 *color) 
   *((BLRgba32*)(data + idx)) = *color;
 }
 
+static inline void SetPixelColor(BLImage *img, long x, long y, BLRgba32 color) {
+  SetPixelColor(img, x, y, &color);
+}
+
 #endif  // PIXELS_H_
