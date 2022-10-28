@@ -5,4 +5,4 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/libs/nlohmann/single_include/nlo
 add_subdirectory(libs/blend2d)
 add_subdirectory(learning)
 add_executable(render render.cc)
-target_link_libraries(render glog)
+target_link_libraries(render glog blend2d)

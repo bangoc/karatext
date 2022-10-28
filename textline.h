@@ -39,7 +39,7 @@ public:
     std::cout << "notes.size() " << _notes.size() << " sum " << _sum_notes << std::endl;
 
     BLFontFace face;
-    face.createFromFile("/usr/share/fonts/truetype/tlwg/Laksaman-Italic.ttf");
+    face.createFromFile("/home/bangoc/git/karatext/samples/NotoSans-BoldItalic.ttf");
     _font.createFromFace(face, _size);
     BLFontMetrics fm = _font.metrics();
     std::string s = "";
@@ -98,8 +98,17 @@ public:
     high_context.fillUtf8Text(_pos, _font, _text.c_str());
     high_context.end();
   }
-  void Paint(BLContext *ctx) {
-
+  void Paint(BLImage *img, double t, BLPoint p) {
+    BLImage txt = Render(t);
+    for (long i = 0; i < width(); ++i) {
+      for (long j = 0; j < height(); ++j) {
+        BLRgba32 color = GetPixelColor(&txt, i, j);
+        if (color.r() == 0 && color.g() == 0 && color.b() == 0) {
+          continue;
+        }
+        SetPixelColor(img, p.x + i, p.y + j, color);
+      }
+    }
   }
 
   BLImage Render(double t) {
@@ -134,12 +143,18 @@ public:
           GetPixelColor(&_regular_view, i, j));
       }
     }
-    char buff[1000];
-    sprintf(buff, "frame%08d.png", cc++);
+    // char buff[1000];
+    // sprintf(buff, "frame%08d.png", cc++);
     // ctx.end();
-    img.writeToFile(buff);
+    // img.writeToFile(buff);
     return img;
   }
+
+  long height() { return _height; }
+  long width() { return _width; }
+  double begin() { return _begin; }
+  double end() { return _end; }
+  BLFont font() { return _font; }
 };
 
 #endif  // TEXT_LINE_H_
