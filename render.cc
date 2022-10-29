@@ -36,7 +36,7 @@ int main(int argc, char *argv[]) {
     std::string e = line["end"].get<std::string>();
     line["end"] = toSecond(e);
     LOG(INFO) << line.dump(2) << std::endl;
-    TextLine *tmp = new TextLine(line, 60,
+    TextLine *tmp = new TextLine(line, 100,
         BLRgba32(0xFF, 0xFF, 0xFF, 0xFF), BLRgba32(0x00, 0xFF, 0x00, 0xFF));
     lines.push_back(tmp);
   }

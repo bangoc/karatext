@@ -84,8 +84,8 @@ public:
     }
     _pos.x = 5;
     _pos.y = _height - fm.descent - 5;
-    blImageInitAs(&_regular_view, _width, _height, BL_FORMAT_PRGB32);
-    blImageInitAs(&_high_view, _width, _height, BL_FORMAT_PRGB32);
+    blImageInitAs(&_regular_view, _width + 100, _height, BL_FORMAT_PRGB32);
+    blImageInitAs(&_high_view, _width + 100, _height, BL_FORMAT_PRGB32);
     BLContext regular_context(_regular_view);
     regular_context.fillAll();
     regular_context.setFillStyle(regular_color);
@@ -113,7 +113,10 @@ public:
 
   BLImage Render(double t) {
     static int cc = 1;
-    BLImage img(_width, _height, BL_FORMAT_PRGB32);
+    if (_width > 1920) {
+      std::cout << "overflow .........................!!!!" << _width << std::endl;
+    }
+    BLImage img(_width + 100, _height, BL_FORMAT_PRGB32);
     double light = 0;
     if (t > _begin && t <= _end) {
       double frag = (t - _begin) / (_end - _begin);
@@ -130,6 +133,9 @@ public:
     } else if (t > _end) {
       light = _sum_widths;
     }
+    // if (light >= _width) {
+    //   light = _width - 1;
+    // }
     std::cout << "t: " << t << " light points: " << light << std::endl;
     for (long i = 0; i < _pos.x + light; ++i) {
       for (long j = 0; j < _height; ++j) {
